@@ -24,3 +24,5 @@ dependencies:
   - pip:
     - scikit-learn
     - numpy
+    - seaborn
+    - statsmodels
