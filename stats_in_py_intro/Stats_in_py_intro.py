@@ -2,13 +2,10 @@
 # coding: utf-8
 
 # # Intro to stats in python
-
 # ### For a tutorial on these stats visit:
 # https://scipy-lectures.org/packages/statistics/index.html
 
-# In[51]:
-
-
+# Import Statements
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -22,179 +19,95 @@ from statsmodels.formula.api import ols
 from statsmodels.stats.anova import anova_lm
 import os
 import urllib
+print()
 
+print("Running Python Stats Toutorial Examples")
 
 # ## Import .csv file
-
-# In[2]:
-
-
 data = pd.read_csv("brain_size.csv", sep=';' , na_values = ".")
 print(data)
 data1 = pd.read_csv("iris.csv", sep=',' , na_values = ".")
 
-
+print("Running numpy Array")
+      
 # ### Numpy Array
-
-# In[3]:
-
-
 t = np.linspace(-6, 6,20)
 sin_t = np.sin(t)
 cos_t = np.cos(t)
-
-
-# ### Numpy Array Exposed in Pandas
-
-# In[4]:
-
-
 pd.DataFrame({'t': t, 'sin': sin_t, "cos" : cos_t})
-
-
+      
 # ## Manuipulating data
-
-# #### It has 40 rows and 8 columns
-
-# In[5]:
-
-
+print("Section: manipulating data")
 data.shape
-
-
-# In[6]:
-
-
+print(data.shape)
+print("Formatting Data Shape for brain_size.csv")
 data.columns 
 data.columns = pd.Index([u'Unnamed: 0', u'Gender', u'FSIQ', u'VIQ', u'PIQ', u'Weight', u'Height', u'MRI_Count'], dtype='object')
 print(data.columns)
 
-
 # #### Columns can be shown by name
-
-# In[7]:
-
-
+print ("Example of Column Display by Name")
 print(data['Gender'])
 
-
 # # Simpler selector
-
-# In[8]:
-
-
+print("Showing Means")
 data[data['Gender'] == 'Female'] ['VIQ'].mean()
-
-
-# In[9]:
-
-
 groupby_gender = data.groupby('Gender')
 for gender, value in groupby_gender['VIQ']:
+    print("Gender Value Mean")
     print((gender, value.mean()))
-
-
-# In[10]:
-
-
-groupby_gender.mean()
-
-
+print("Group by Gender Mean) 
+        print(groupby_gender.mean())
+      
 # ## Making Box and Whisker Plots
-
-# In[11]:
-
-
+print("How to Show Box and Whisker Plots")
 plt.figure(figsize=(4, 3))
 data.boxplot(column= ['FSIQ', 'PIQ'])
-
+plt.show()
+plt.savefig(box_and_whisker_plot.png)
 
 # #### Boxplotting differences
-
-# In[12]:
-
-
 plt.figure(figsize=(4, 3))
 plt.boxplot(data['FSIQ'] - data['PIQ'])
 plt.xticks((1, ), ('FSIQ-PIQ',))
 plt.show()
+plt.savefig(comparative_boxplot.png)
 
-
-# # Plotting data
-
-# In[13]:
-
-
+# # Plotting data via scatter matirces
+print("Running Example Scatter Matrices...")
 pd.plotting.scatter_matrix(data[['Weight','Height', 'MRI_Count']])
 plt.show()
-
-
-# In[14]:
-
+plt.savefig("Weight_Height_MRI_Count_scatter_matrix.png)
 
 pd.plotting.scatter_matrix(data[['VIQ','PIQ', 'FSIQ']])
 plt.show()
-
-
-# In[15]:
-
-
-pd.plotting.scatter_matrix(data[['PIQ','VIQ','FSIQ']])
-plt.show()
-
+plt.savefig("VIQ_PIQ_FSIQ_scatter_matix")
 
 # ### Boxplots of columns by gender
-
-# In[41]:
-
-
+print("Running Boxplots of Columns by Gender")
 groupby_gender = data.groupby('Gender')
 groupby_gender.boxplot(column=['FSIQ', 'VIQ', 'PIQ'])
-
+plt.savefig(Boxplot_by_gender_columns.png)
 
 # # Hypothesis Testing and Comparing Two Groups
-
-# In[16]:
-
-
+print("Running Group comparisons and hypothesis testing")
 stats.ttest_1samp(data['VIQ'], 0)
-
-
-# In[17]:
-
-
+            
 female_viq = data[data['Gender'] == 'Female']['VIQ']
 male_viq = data[data['Gender'] == 'Male']['VIQ']
 stats.ttest_ind(female_viq, male_viq)
-
-
-# In[18]:
-
-
+print("T-test independent")
 stats.ttest_ind(data['FSIQ'], data['PIQ'])
-
-
-# In[19]:
-
-
+print("T-test 1 Sample")
 stats.ttest_1samp(data['FSIQ'] - data['PIQ'], 0)
 
-
 # ## Wilcoxon signed-rank test
-
-# In[20]:
-
-
+print("Wilcoxon signed-rank test")
 stats.wilcoxon(data['FSIQ'], data ['PIQ'])
 
-
 # ## Linear Models
-
+print("Linear Modeling Section")
 # #### Generate simulated data according to the model
-
-# In[21]:
-
-
 x = np.linspace(-5, 5, 20)
 np.random.seed(1)
 # normal distributed noise
@@ -202,31 +115,18 @@ y = -5 +3*x +4 * np.random.normal (size=x.shape)
 # Create a data frame conatining all relavent variables
 data = pd.DataFrame({'x' : x, 'y': y})
 
-
 # ##### Specify OLS model and fit it to the graph
-
-# In[22]:
-
 
 from statsmodels.formula.api import ols
 model = ols("y ~ x", data).fit()
 
-
 # ##### Inspect Stats derived from the OLS model
-
-# In[23]:
-
 
 from statsmodels.formula.api import ols
 model = ols("y ~ x", data).fit()
 print(model.summary())
-
-
+            
 # ### Ex. Copmarison of male and female IQ based on brain size
-
-# In[24]:
-
-
 ## rerun data definitions to make work
 import pandas as pd
 data = pd.read_csv ("brain_size.csv",sep=';',na_values='.')
@@ -235,80 +135,51 @@ data.columns = pd.Index([u'Unnamed: 0', u'Gender', u'FSIQ', u'VIQ', u'PIQ', u'We
 model = ols("VIQ ~ Gender", data).fit()
 print(model.summary())
 
-
 # ### Link to t-tests between different FSIQ and PIQ
-
-# In[25]:
-
-
+print("Link to t-tests between different FSIQ and PIQ")
 data_fisq = pd.DataFrame({'iq': data['FSIQ'], 'type': 'fsiq'})
 data_piq = pd.DataFrame({'iq': data['PIQ'], 'type': 'piq'})
 data_long = pd.concat((data_fisq, data_piq))
 print(data_long)
 
-
-# In[26]:
-
-
-[34,35,]
+[9,10,11,12,13,14,15,16,17,18,19,20,21]
 model = ols ("iq ~ type", data_long).fit()
 print(model.summary())
 stats.ttest_ind(data['FSIQ'], data['PIQ'])
 
-
 # ## Multiple Regression
-
+print("Multiple Regression Analysis)
 # ## Opening iris.csv from import
-
-# In[27]:
-
-
+print("Opening iris.csv from import")
 print(data1)
 data1.shape #150 rows and 1? column
 data1.columns = pd.Index([u'sepal_length', u'sepal_width', u'petal_length', u'petal_width', u'name'], dtype='object')
 print(data1.shape)
 print(data1.columns)
-
-
-# In[28]:
-
-
 model = ols('sepal_width ~ petal_length', data1).fit()
 print(model.summary())
 
-
 # ## Analysis of petal sizes
-
-# In[49]:
-
 
 categories = pd.Categorical(data1['name'])
 pd.plotting.scatter_matrix(data1, c=categories.codes, marker='o')
 fig = plt.gcf()
 fig.suptitle("blue: setosa, green: versicolor, red: virginica", size=13)
-
+plt.savefig("analysis_of_petal_sizes")
 
 # # ANOVA
 # ### Post-hoc hypothesis testing: analysis of varience
-
 # ##### Write a vector of contrast
-
-# In[29]:
-
-
+print("ANOVA Test Formatting")
 test_input = [0, 1, -1, 0]
 test_input_array = sm.add_constant(test_input)
 result = model.f_test(test_input_array)
 print (result)
-
-
+      
 # # More Visualization Using Seaborn
-
 # ### Importing "wages.txt" from the web
-
-# In[30]:
-
-
+print("Seaborn Visualization")
+print("Importing 'wages.txt' from the web")
 engine ='python'
 if not os.path.exists('wages.txt'):
     urllib.request.urlretrieve('http://lib.stat.cmu.edu/datasets/CPS_85_Wages', 'wages.txt')
@@ -317,80 +188,50 @@ short_names = [n.split(':')[0] for n in names]
 data3 = pd.read_csv('wages.txt', skiprows=27, skipfooter=6, sep=None, header=None, names=short_names)
 data3.columns =short_names
 
-
 # ### mulplicative factors
-
-# In[31]:
-
-
+print("Running mulplicative factors analysis and printing graphs")
 data3['WAGE'] = np.log10(data3['WAGE'])
-
-
-# In[32]:
-
-
 seaborn.pairplot(data3, vars=['WAGE', 'AGE', 'EDUCATION'], kind='reg')
+plt.savefig("Wage_age_education1.png)      
 seaborn.pairplot(data3, vars=['WAGE', 'AGE', 'EDUCATION'], kind='reg', hue='SEX')
 plt.suptitle('Effect of gender: 1=Female, 0=Male')
+plt.savefig("Wage_age_education2.png)       
 seaborn.pairplot(data3, vars=['WAGE','AGE','EDUCATION'], kind='reg', hue='RACE')
 plt.suptitle('Effect of race: 1=Other, 2=Hispanic, 3=White')
+plt.savefig("Wage_age_education3.png)       
 seaborn.pairplot(data3, vars=['WAGE','AGE', 'EDUCATION'], kind='reg', hue='UNION')
 plt.suptitle('Effect of union: 1=Union member, 0=Not union member')
-
+plt.savefig("Wage_age_education4.png) 
 
 # ### Plotting a simple regression
-
-# In[33]:
-
-
+print("Plotting_simple_regression")
 seaborn.lmplot(y='WAGE', x='EDUCATION', data=data3)
 plt.show()
-
+plt.savefig("simple_regression.png")
 
 # ## Viewing wages.txt
 
-# In[34]:
-
-
+print("Viewing wages from wages.txt")
 print(data3)
-
-
-# In[35]:
-
-
-seaborn.pairplot(data3, vars=['WAGE', 'AGE', 'EDUCATION'], kind='reg')
-
-
-# In[36]:
-
-
+print("running pairplot Wage vs. Age vs. Education")
 seaborn.pairplot(data3, vars=['WAGE', 'AGE', 'EDUCATION'], kind='reg', hue='SEX')
-
+plt.savefig("pairplot_Wage_Age_Education.png")
 
 # ## lmplot for plotting a univariate regression
-
-# In[37]:
-
-
+print("running univariate regression")
 seaborn.lmplot(y='WAGE', x='EDUCATION', data=data3)
-
+plt.savefig("univariate_regression.png)
 
 # ### Correlation testing
-
-# In[38]:
-
-
+            
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
 result = ols(formula='WAGE ~ EDUCATION + GENDER - EDUCATION * GENDER', data=data3).fit()
 print(result.summary())
 
-
 # ## Correlation Regression
 
-# In[50]:
-
-
+print("running correlation regression")
 engine='python'
 if not os.path.exists('wages.txt'):
     urllib.request.urlretrieve('http://lib.stat.cmu.edu/datasets/CPS_85_Wages', 'wages.txt')
@@ -401,12 +242,9 @@ data3.columns =short_names
 print(data3.columns)
 seaborn.lmplot(y='WAGE', x='EDUCATION', hue='SEX', data=data3)
 plt.show()
-
+plt.savefig("correlation_regression")
 
 # ## Multivariant regression
-
-# In[54]:
-
 
 x= np.linspace(-5, 5, 21)
 X, Y = np.meshgrid(x, x)
@@ -421,10 +259,7 @@ ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
 plt.show()
-
-
-# In[ ]:
-
+plt.savefig("multivariant_regression")
 
 
 
