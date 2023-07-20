@@ -4,6 +4,8 @@
 # # Intro to stats in python
 # ### For a tutorial on these stats visit:
 # https://scipy-lectures.org/packages/statistics/index.html
+print("For a tutorial on these stats visit: https://scipy-lectures.org/packages/statistics/index.html")
+print("Physical graphs will populate as .png files")
 
 # Import Statements
 import matplotlib as mpl
@@ -56,28 +58,28 @@ groupby_gender = data.groupby('Gender')
 for gender, value in groupby_gender['VIQ']:
     print("Gender Value Mean")
     print((gender, value.mean()))
-print("Group by Gender Mean) 
-        print(groupby_gender.mean())
+print("Group by Gender Mean") 
+print(groupby_gender.mean())
       
 # ## Making Box and Whisker Plots
 print("How to Show Box and Whisker Plots")
 plt.figure(figsize=(4, 3))
 data.boxplot(column= ['FSIQ', 'PIQ'])
 plt.show()
-plt.savefig(box_and_whisker_plot.png)
+plt.savefig("box_and_whisker_plot.png")
 
 # #### Boxplotting differences
 plt.figure(figsize=(4, 3))
 plt.boxplot(data['FSIQ'] - data['PIQ'])
 plt.xticks((1, ), ('FSIQ-PIQ',))
 plt.show()
-plt.savefig(comparative_boxplot.png)
+plt.savefig("comparative_boxplot.png")
 
 # # Plotting data via scatter matirces
 print("Running Example Scatter Matrices...")
 pd.plotting.scatter_matrix(data[['Weight','Height', 'MRI_Count']])
 plt.show()
-plt.savefig("Weight_Height_MRI_Count_scatter_matrix.png)
+plt.savefig("Weight_Height_MRI_Count_scatter_matrix.png")
 
 pd.plotting.scatter_matrix(data[['VIQ','PIQ', 'FSIQ']])
 plt.show()
@@ -87,7 +89,7 @@ plt.savefig("VIQ_PIQ_FSIQ_scatter_matix")
 print("Running Boxplots of Columns by Gender")
 groupby_gender = data.groupby('Gender')
 groupby_gender.boxplot(column=['FSIQ', 'VIQ', 'PIQ'])
-plt.savefig(Boxplot_by_gender_columns.png)
+plt.savefig("Boxplot_by_gender_columns.png")
 
 # # Hypothesis Testing and Comparing Two Groups
 print("Running Group comparisons and hypothesis testing")
@@ -148,7 +150,7 @@ print(model.summary())
 stats.ttest_ind(data['FSIQ'], data['PIQ'])
 
 # ## Multiple Regression
-print("Multiple Regression Analysis)
+print("Multiple Regression Analysis")
 # ## Opening iris.csv from import
 print("Opening iris.csv from import")
 print(data1)
@@ -192,16 +194,16 @@ data3.columns =short_names
 print("Running mulplicative factors analysis and printing graphs")
 data3['WAGE'] = np.log10(data3['WAGE'])
 seaborn.pairplot(data3, vars=['WAGE', 'AGE', 'EDUCATION'], kind='reg')
-plt.savefig("Wage_age_education1.png)      
+plt.savefig("Wage_age_education1.png")      
 seaborn.pairplot(data3, vars=['WAGE', 'AGE', 'EDUCATION'], kind='reg', hue='SEX')
 plt.suptitle('Effect of gender: 1=Female, 0=Male')
-plt.savefig("Wage_age_education2.png)       
+plt.savefig("Wage_age_education2.png")       
 seaborn.pairplot(data3, vars=['WAGE','AGE','EDUCATION'], kind='reg', hue='RACE')
 plt.suptitle('Effect of race: 1=Other, 2=Hispanic, 3=White')
-plt.savefig("Wage_age_education3.png)       
+plt.savefig("Wage_age_education3.png")       
 seaborn.pairplot(data3, vars=['WAGE','AGE', 'EDUCATION'], kind='reg', hue='UNION')
 plt.suptitle('Effect of union: 1=Union member, 0=Not union member')
-plt.savefig("Wage_age_education4.png) 
+plt.savefig("Wage_age_education4.png") 
 
 # ### Plotting a simple regression
 print("Plotting_simple_regression")
@@ -220,7 +222,7 @@ plt.savefig("pairplot_Wage_Age_Education.png")
 # ## lmplot for plotting a univariate regression
 print("running univariate regression")
 seaborn.lmplot(y='WAGE', x='EDUCATION', data=data3)
-plt.savefig("univariate_regression.png)
+plt.savefig("univariate_regression.png")
 
 # ### Correlation testing
             
