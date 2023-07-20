@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+################################################################################## WARNING BY RUNNING THIS SCRIPT YOU WILL DOWNLOAD PNG FILES OF THE EXAMPLES TO YOUR BINDER ENVIRONMENT###################################################################
 # # Intro to stats in python
 # ### For a tutorial on these stats visit:
 # https://scipy-lectures.org/packages/statistics/index.html
